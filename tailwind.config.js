@@ -9,6 +9,9 @@ module.exports = {
       height: {
         98: "30rem",
       },
+      fontSize: {
+        "10xl": "10rem",
+      },
     },
   },
   plugins: [],
