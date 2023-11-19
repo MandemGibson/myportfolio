@@ -111,11 +111,6 @@ function Services() {
           {/*Working Progress end*/}
         </div>
       </div>
-
-      {/*Latest Works*/}
-      <div>
-        <TitAndSub title="Latest Works" subtitle="Explore Recent Projects" />
-      </div>
     </>
   );
 }

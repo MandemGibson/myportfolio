@@ -8,6 +8,7 @@ import {
 import { Link } from "react-router-dom";
 import mypic from "../assets/images/My Profile.jpg";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
+import backgroundImg from "../assets/images/webbg.webp";
 
 function Home() {
   const [text] = useTypewriter({
@@ -16,7 +17,10 @@ function Home() {
   });
 
   return (
-    <div className=" bg-slate-600 h-screen">
+    <div
+      className="bg-cover bg-center h-screen"
+      style={{ backgroundImage: `url(${backgroundImg})` }}
+    >
       <div className="ml-28 mr-28">
         <div className="flex justify-between p-2">
           <div className="flex">
