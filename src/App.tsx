@@ -29,7 +29,7 @@ function App() {
   };
 
   return (
-    <main className="relative">
+    <main>
       <Home />
       <Blog />
       <About />

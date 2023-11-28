@@ -2,6 +2,7 @@ import ImgCard from "../components/ImgCard";
 import ProjectCategory from "../components/ProjectCategory";
 import TitAndSub from "../components/TitAndSub";
 import mypic from "../assets/images/My Profile.jpg";
+import TestimonialCard from "../components/TestimonialCard";
 
 function Portfolio() {
   return (
@@ -24,6 +25,36 @@ function Portfolio() {
         <button className="w-max h-min py-1 px-3 border-2 border-gray-500 rounded font-semibold text-sm text-gray-700 underline">
           Load More
         </button>
+      </div>
+      <div className="mt-5">
+        <TitAndSub title="Client's Review" subtitle="Testimonials" />
+        {/* <h1>&#9733;</h1> */}
+        <div className="flex items-center justify-center space-x-3">
+          <TestimonialCard
+            rating={[<h1>&#9733;</h1>, <h1>&#9733;</h1>, <h1>&#9733;</h1>]}
+            testimonial="He is a good developer and works with time"
+            name="John Doe"
+            occupation="Software Dev"
+          />
+          <TestimonialCard
+            rating={[<h1>&#9733;</h1>, <h1>&#9733;</h1>, <h1>&#9733;</h1>]}
+            testimonial="He is a good developer and works with time"
+            name="John Doe"
+            occupation="Software Dev"
+          />
+          <TestimonialCard
+            rating={[<h1>&#9733;</h1>, <h1>&#9733;</h1>, <h1>&#9733;</h1>]}
+            testimonial="He is a good developer and works with time"
+            name="John Doe"
+            occupation="Software Dev"
+          />
+          <TestimonialCard
+            rating={[<h1>&#9733;</h1>, <h1>&#9733;</h1>, <h1>&#9733;</h1>]}
+            testimonial="He is a good developer and works with time"
+            name="John Doe"
+            occupation="Software Dev"
+          />
+        </div>
       </div>
     </div>
   );
