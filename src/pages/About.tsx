@@ -2,7 +2,7 @@
 
 function About() {
   return (
-    <div className="m-28 flex items-center">
+    <section id="about" className="m-28 flex items-center">
       <div className="rounded-lg bg-blue-500 w-3/8 h-98 relative">
         <img
           src="https://media.licdn.com/dms/image/D4D03AQHQatMXvC3qRQ/profile-displayphoto-shrink_800_800/0/1674306316434?e=2147483647&v=beta&t=WmQc3xePt8cmLY4XNvdKVKYtLlBxwL-aYGnRztXFnpg"
@@ -46,7 +46,7 @@ function About() {
           More About Me
         </button>
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -6,7 +6,7 @@ import TestimonialCard from "../components/TestimonialCard";
 
 function Portfolio() {
   return (
-    <div className="ml-28 mr-28">
+    <section id="portfolio" className="ml-28 mr-28">
       <TitAndSub title="Latest Works" subtitle="Explore Recent Projects" />
       <div className="flex items-center justify-center space-x-3 mb-6">
         <ProjectCategory item="All" />
@@ -50,7 +50,7 @@ function Portfolio() {
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

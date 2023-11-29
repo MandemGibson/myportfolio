@@ -12,7 +12,7 @@ function Contact() {
     fontSize: "2rem",
   };
   return (
-    <div className="flex mt-16 ml-28 mr-28 justify-around">
+    <section id="contact-me" className="flex mt-16 ml-28 mr-28 justify-around">
       <div className="flex flex-col space-y-4 justify-center">
         <h1 className="text-4xl font-semibold text-gray-800">
           Postal Information
@@ -61,7 +61,7 @@ function Contact() {
           </button>
         </form>
       </div>
-    </div>
+    </section>
   );
 }
 

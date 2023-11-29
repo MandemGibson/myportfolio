@@ -16,7 +16,7 @@ const progressBoxIcon = {
 function Services() {
   return (
     <>
-      <div className="bg-gray-100 h-min">
+      <section id="service" className="bg-gray-100 h-min">
         <div className="mx-28 pt-8">
           {/*Services start*/}
           <TitAndSub title="Services" subtitle="Explore My Best Services" />
@@ -110,7 +110,7 @@ function Services() {
           </div>
           {/*Working Progress end*/}
         </div>
-      </div>
+      </section>
     </>
   );
 }

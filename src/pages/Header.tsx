@@ -5,7 +5,7 @@ import {
   Twitter,
   WhatsApp,
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import mypic from "../assets/images/My Profile.jpg";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import backgroundImg from "../assets/images/webbg.webp";
@@ -16,8 +16,13 @@ function Home() {
     loop: true,
   });
 
+  const handleClick = () => {
+    alert("Check out my contact card");
+  };
+
   return (
     <div
+      id="home"
       className="bg-cover bg-center h-screen"
       style={{ backgroundImage: `url(${backgroundImg})` }}
     >
@@ -62,38 +67,43 @@ function Home() {
             <nav className="mr-10">
               <ul className="flex space-x-5">
                 <Link
-                  to="/"
+                  to="#home"
+                  smooth
                   className="font-bold text-base text-gray-400 hover:text-gray-800"
                 >
                   Home
                 </Link>
                 <Link
-                  to="/about"
+                  to="#about"
+                  smooth
                   className="font-bold text-base text-gray-400 hover:text-gray-800"
                 >
                   About
                 </Link>
                 <Link
-                  to="/service"
+                  to="#service"
+                  smooth
                   className="font-bold text-base text-gray-400 hover:text-gray-800"
                 >
                   Service
                 </Link>
                 <Link
-                  to="/portfolio"
+                  to="#portfolio"
+                  smooth
                   className="font-bold text-base text-gray-400 hover:text-gray-800"
                 >
                   Portfolio
                 </Link>
                 <Link
-                  to="/blog"
+                  to="#blog"
+                  smooth
                   className="font-bold text-base text-gray-400 hover:text-gray-800"
                 >
                   Blog
                 </Link>
               </ul>
             </nav>
-            <button className="bg-blue-400 rounded p-3">
+            <button onClick={handleClick} className="bg-blue-400 rounded p-3">
               <span className="text-white font-semibold">Contact Me</span>
             </button>
           </div>

@@ -7,6 +7,7 @@ import { ArrowUpward } from "@mui/icons-material";
 import Portfolio from "./pages/Portfolio";
 import Contact from "./pages/Contact";
 import Footer from "./pages/Footer";
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
   const [showScroll, setShowScroll] = useState(false);
@@ -32,29 +33,33 @@ function App() {
 
   return (
     <>
-      <main>
-        <Home />
-        <Blog />
-        <About />
-        <Services />
-        <Portfolio />
-        <Contact />
-        <div
-          className={
-            showScroll ? `flex justify-end sticky bottom-2 z-10 mr-2 mb-2` : ""
-          }
-        >
-          <button
-            className=" bg-blue-300 rounded-full p-3"
-            onClick={handleBackToTop}
+      <Router>
+        <main>
+          <Home />
+          <Blog />
+          <About />
+          <Services />
+          <Portfolio />
+          <Contact />
+          <div
+            className={
+              showScroll
+                ? `flex justify-end sticky bottom-2 z-10 mr-2 mb-2`
+                : ""
+            }
           >
-            <ArrowUpward />
-          </button>
-        </div>
-        <footer>
-          <Footer />
-        </footer>
-      </main>
+            <button
+              className=" bg-blue-300 rounded-full p-3"
+              onClick={handleBackToTop}
+            >
+              <ArrowUpward />
+            </button>
+          </div>
+          <footer>
+            <Footer />
+          </footer>
+        </main>
+      </Router>
     </>
   );
 }

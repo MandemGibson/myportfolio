@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import SocialMedia from "../components/SocialMedia";
 import {
   CallOutlined,
@@ -54,19 +54,29 @@ function Footer() {
           <h2 className="text-xl font-bold">Quick Links</h2>
           <ul className="space-y-2 font-semibold">
             <li>
-              <Link to="">Home</Link>
+              <Link to="#home" smooth>
+                Home
+              </Link>
             </li>
             <li>
-              <Link to="">About</Link>
+              <Link to="#about" smooth>
+                About
+              </Link>
             </li>
             <li>
-              <Link to="">Service</Link>
+              <Link to="#service" smooth>
+                Service
+              </Link>
             </li>
             <li>
-              <Link to="">Portfolio</Link>
+              <Link to="#portfolio" smooth>
+                Portfolio
+              </Link>
             </li>
             <li>
-              <Link to="">Blog</Link>
+              <Link to="#blog" smooth>
+                Blog
+              </Link>
             </li>
           </ul>
         </div>
