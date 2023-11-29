@@ -1,4 +1,9 @@
-import { Alarm, Call, LocationOnOutlined, Mail } from "@mui/icons-material";
+import {
+  Alarm,
+  CallOutlined,
+  LocationOnOutlined,
+  MailOutline,
+} from "@mui/icons-material";
 import ContactInfo from "../components/ContactInfo";
 
 function Contact() {
@@ -13,24 +18,28 @@ function Contact() {
           Postal Information
         </h1>
         <ContactInfo
-          icon={<Call style={iconStyle} />}
+          icon={<CallOutlined style={iconStyle} />}
           title="Call Me"
           subtitle="+233-24-842-9031"
+          subtitleColor="text-gray-500"
         />
         <ContactInfo
-          icon={<Mail style={iconStyle} />}
+          icon={<MailOutline style={iconStyle} />}
           title="Mail"
           subtitle="themaingib@gmail.com"
+          subtitleColor="text-gray-500"
         />
         <ContactInfo
           icon={<LocationOnOutlined style={iconStyle} />}
           title="Address"
           subtitle="Sekondi, Ghana"
+          subtitleColor="text-gray-500"
         />
         <ContactInfo
           icon={<Alarm style={iconStyle} />}
           title="Time Zone"
           subtitle="GMT +0.00 Africa/Ghana"
+          subtitleColor="text-gray-500"
         />
       </div>
       <div className=" shadow-lg p-6 w-2/5">

@@ -1,5 +1,3 @@
-import React from "react";
-
 function ImgCard({ image }: { image: string }) {
   return (
     <div className="w-56 h-40 bg-gray-400 shadow-md drop-shadow-sm hover:drop-shadow-2xl hover:cursor-pointer shadow-gray-600">

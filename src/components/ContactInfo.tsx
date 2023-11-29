@@ -1,8 +1,9 @@
 import React from "react";
 type ContactInfoProps = {
   icon: React.ReactElement;
-  title: string;
+  title?: string;
   subtitle: string;
+  subtitleColor: string;
 };
 
 function ContactInfo({ ...everything }: ContactInfoProps) {
@@ -13,7 +14,7 @@ function ContactInfo({ ...everything }: ContactInfoProps) {
         <h2 className="text-2xl font-semibold text-gray-700">
           {everything.title}
         </h2>
-        <h3 className="text-gray-500">{everything.subtitle}</h3>
+        <h3 className={`${everything.subtitleColor}`}>{everything.subtitle}</h3>
       </div>
     </div>
   );

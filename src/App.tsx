@@ -6,6 +6,7 @@ import Services from "./pages/Services";
 import { ArrowUpward } from "@mui/icons-material";
 import Portfolio from "./pages/Portfolio";
 import Contact from "./pages/Contact";
+import Footer from "./pages/Footer";
 
 function App() {
   const [showScroll, setShowScroll] = useState(false);
@@ -50,10 +51,10 @@ function App() {
             <ArrowUpward />
           </button>
         </div>
+        <footer>
+          <Footer />
+        </footer>
       </main>
-      <footer>
-        <p>© 2022 - All rights reserved</p>
-      </footer>
     </>
   );
 }
