@@ -29,13 +29,7 @@ function Portfolio() {
       <div className="mt-5">
         <TitAndSub title="Client's Review" subtitle="Testimonials" />
         {/* <h1>&#9733;</h1> */}
-        <div className="flex items-center justify-center space-x-3">
-          <TestimonialCard
-            rating={[<h1>&#9733;</h1>, <h1>&#9733;</h1>, <h1>&#9733;</h1>]}
-            testimonial="He is a good developer and works with time"
-            name="John Doe"
-            occupation="Software Dev"
-          />
+        <div className="flex items-center justify-center space-x-3 flex-wrap">
           <TestimonialCard
             rating={[<h1>&#9733;</h1>, <h1>&#9733;</h1>, <h1>&#9733;</h1>]}
             testimonial="He is a good developer and works with time"

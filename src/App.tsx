@@ -5,6 +5,7 @@ import Home from "./pages/Header";
 import Services from "./pages/Services";
 import { ArrowUpward } from "@mui/icons-material";
 import Portfolio from "./pages/Portfolio";
+import Contact from "./pages/Contact";
 
 function App() {
   const [showScroll, setShowScroll] = useState(false);
@@ -29,25 +30,31 @@ function App() {
   };
 
   return (
-    <main>
-      <Home />
-      <Blog />
-      <About />
-      <Services />
-      <Portfolio />
-      <div
-        className={
-          showScroll ? `flex justify-end sticky bottom-2 z-10 mr-2 mb-2` : ""
-        }
-      >
-        <button
-          className=" bg-blue-300 rounded-full p-3"
-          onClick={handleBackToTop}
+    <>
+      <main>
+        <Home />
+        <Blog />
+        <About />
+        <Services />
+        <Portfolio />
+        <Contact />
+        <div
+          className={
+            showScroll ? `flex justify-end sticky bottom-2 z-10 mr-2 mb-2` : ""
+          }
         >
-          <ArrowUpward />
-        </button>
-      </div>
-    </main>
+          <button
+            className=" bg-blue-300 rounded-full p-3"
+            onClick={handleBackToTop}
+          >
+            <ArrowUpward />
+          </button>
+        </div>
+      </main>
+      <footer>
+        <p>© 2022 - All rights reserved</p>
+      </footer>
+    </>
   );
 }
 
