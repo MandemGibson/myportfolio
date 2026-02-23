@@ -18,6 +18,8 @@ export default function TerminalInterface({
 }: TerminalInterfaceProps) {
   const [currentInput, setCurrentInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<Command[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [inputHistory, setInputHistory] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const commands = {
@@ -34,13 +36,12 @@ export default function TerminalInterface({
     sudo hire-me - Easter egg command
     help      - Show this help`,
 
-    about: `Hello! I'm Philip Gibson Cudjoe, a passionate Full Stack Developer with 5+ years of experience.
+    about: `Hello! I'm Philip Gibson Cudjoe, a passionate Full Stack Developer with 2+ years of experience.
     
 I specialize in building modern web applications using React, Next.js, Node.js, and various cloud technologies.
 My passion lies in creating efficient, scalable solutions that solve real-world problems.
 
-When I'm not coding, you can find me contributing to open-source projects, 
-learning new technologies, or sharing knowledge with the developer community.`,
+When I'm not coding, you can find me learning new technologies, or sharing knowledge with the developer community.`,
 
     skills: `Frontend:
     • React, Next.js, TypeScript
@@ -100,10 +101,10 @@ Certifications:
 
     contact: `Get in touch:
     
-Email: alex.developer@example.com
-LinkedIn: https://linkedin.com/in/alexdeveloper
-GitHub: https://github.com/alexdeveloper
-Twitter: @alexdev_tech
+Email: philipgibsoncudjoe@gmail.com
+LinkedIn: https://linkedin.com/in/philip-gibson-cudjoe
+GitHub: https://github.com/MandemGibson
+Twitter: https://x.com/Mandem_Gibson
 
 I'm always interested in new opportunities and collaborations!`,
 
@@ -113,17 +114,13 @@ Downloading resume.pdf...
 [████████████████████] 100%
     
 Resume downloaded successfully!
-You can also view it online at: https://alexdeveloper.dev/resume`,
+You can also view it online at: https://philipgibsoncudjoe.dev/resume`,
 
     clear: "",
 
     modern: "Switching to modern UI...",
 
-    "sudo hire-me": `$ sudo hire-me
-Password: ********
-[SUCCESS] You have been granted permission to hire Philip Gibson Cudjoe!
-    
-Congratulations! 🎉
+    "sudo hire-me": `Congratulations! 🎉
 You've discovered the easter egg command!
     
 Here's what happens when you hire me:
@@ -132,7 +129,7 @@ Here's what happens when you hire me:
 • I'm always learning and adapting
 • I contribute to a positive team culture
     
-Contact me at alex.developer@example.com to discuss opportunities!`,
+Contact me at philipgibsoncudjoe@gmail.com to discuss opportunities!`,
   };
 
   useEffect(() => {
@@ -167,6 +164,18 @@ Type 'help' to see available commands.`;
 
     setCommandHistory((prev) => [...prev, newCommand]);
 
+    // Add to input history if it's not empty and not a duplicate of the last command
+    if (
+      input.trim() &&
+      (inputHistory.length === 0 ||
+        inputHistory[inputHistory.length - 1] !== input)
+    ) {
+      setInputHistory((prev) => [...prev, input]);
+    }
+
+    // Reset history index
+    setHistoryIndex(-1);
+
     // Handle special commands
     if (trimmedInput === "modern") {
       setTimeout(() => onSwitchToModern(), 1000);
@@ -174,6 +183,8 @@ Type 'help' to see available commands.`;
 
     if (trimmedInput === "clear") {
       setCommandHistory([]);
+      setInputHistory([]);
+      setHistoryIndex(-1);
     }
   };
 
@@ -183,42 +194,70 @@ Type 'help' to see available commands.`;
       setCurrentInput("");
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
+      // Navigate up in command history
+      if (inputHistory.length > 0) {
+        const newIndex =
+          historyIndex === -1
+            ? inputHistory.length - 1
+            : Math.max(0, historyIndex - 1);
+        setHistoryIndex(newIndex);
+        setCurrentInput(inputHistory[newIndex]);
+      }
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
-      // Navigate command history (simplified - placeholder for future implementation)
+      // Navigate down in command history
+      if (historyIndex !== -1) {
+        const newIndex = historyIndex + 1;
+        if (newIndex >= inputHistory.length) {
+          // Reached the end, clear input
+          setHistoryIndex(-1);
+          setCurrentInput("");
+        } else {
+          setHistoryIndex(newIndex);
+          setCurrentInput(inputHistory[newIndex]);
+        }
+      }
     }
   };
 
   return (
     <div
-      className="min-h-screen bg-black text-green-400 font-mono p-4"
+      className="h-screen bg-black text-green-400 font-mono p-2 
+      max-w-full sm:p-4 flex flex-col"
       onClick={() => {
         if (inputRef.current) {
           inputRef.current.focus();
         }
       }}
     >
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl w-full h-full mx-auto flex flex-col">
         {/* Terminal Header */}
-        <div className="flex items-center gap-2 mb-4 p-2 bg-gray-900 rounded-t-lg">
+        <div className="flex items-center gap-2 mb-4 p-2 sm:p-3 bg-gray-900 rounded-t-lg">
           <div className="w-3 h-3 bg-red-500 rounded-full"></div>
           <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
           <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-          <span className="ml-4 text-sm text-gray-300">
+          <span className="ml-2 sm:ml-4 text-xs sm:text-sm text-gray-300">
             gibson@portfolio:~$
           </span>
         </div>
 
         {/* Terminal Body */}
-        <div className="bg-black border border-green-400 rounded-b-lg p-4 min-h-[600px] overflow-y-auto">
+        <div
+          className="bg-black border border-green-400 rounded-b-lg
+          flex-1 p-3 sm:p-4 overflow-y-auto scrollbar-hide"
+        >
           {/* Command History */}
           <div className="space-y-2 mb-4">
             {commandHistory.map((command, index) => (
               <div key={index} className="space-y-1">
                 {command.input && (
-                  <div className="flex items-center">
-                    <span className="text-cyan-400">gibson@portfolio:~$</span>
-                    <span className="ml-2">{command.input}</span>
+                  <div className="flex items-center flex-wrap">
+                    <span className="text-cyan-400 text-xs sm:text-sm">
+                      gibson@portfolio:~$
+                    </span>
+                    <span className="ml-2 text-xs sm:text-sm break-all">
+                      {command.input}
+                    </span>
                   </div>
                 )}
                 {command.output && (
@@ -226,7 +265,7 @@ Type 'help' to see available commands.`;
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="whitespace-pre-wrap text-green-300 ml-0"
+                    className="whitespace-pre-wrap text-green-300 ml-0 text-xs sm:text-sm"
                   >
                     {command.output}
                   </motion.div>
@@ -238,11 +277,7 @@ Type 'help' to see available commands.`;
           {/* Current Input */}
           <div className="flex items-center">
             <span className="text-cyan-400">gibson@portfolio:~$</span>
-            {/* <motion.div
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{ duration: 1, repeat: Infinity }}
-              className="w-2 h-5 bg-green-400 ml-1"
-            /> */}
+
             <input
               ref={inputRef}
               type="text"
