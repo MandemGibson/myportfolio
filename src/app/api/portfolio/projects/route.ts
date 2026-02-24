@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { requireAuth } from "@/lib/auth";
+
+export const dynamic = "force-dynamic";
 
 // GET - Get all projects
 export async function GET() {
@@ -12,7 +15,7 @@ export async function GET() {
     console.error("Error fetching projects:", error);
     return NextResponse.json(
       { error: "Failed to read projects" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -20,13 +23,19 @@ export async function GET() {
 // POST - Add new project
 export async function POST(request: NextRequest) {
   try {
+    // Check authentication
+    const auth = requireAuth(request);
+    if (!auth.authorized) {
+      return NextResponse.json({ error: auth.error }, { status: 401 });
+    }
+
     const newProject = await request.json();
 
     // Validate required fields
     if (!newProject.title || !newProject.description) {
       return NextResponse.json(
         { error: "Title and description are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -38,6 +47,7 @@ export async function POST(request: NextRequest) {
         liveUrl: newProject.liveUrl,
         githubUrl: newProject.githubUrl,
         image: newProject.image,
+        imagePublicId: newProject.imagePublicId,
         status: newProject.status || "Live",
         type: newProject.type || "Full Stack",
         featured: newProject.featured || false,
@@ -53,7 +63,7 @@ export async function POST(request: NextRequest) {
     console.error("Error adding project:", error);
     return NextResponse.json(
       { error: "Failed to add project" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

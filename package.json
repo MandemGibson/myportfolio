@@ -14,9 +14,12 @@
   },
   "dependencies": {
     "@prisma/client": "^6.18.0",
+    "cloudinary": "^2.9.0",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.545.0",
+    "multer": "^2.0.2",
     "next": "15.5.5",
+    "next-connect": "^1.0.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-terminal-ui": "^1.4.0"
@@ -24,6 +27,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/multer": "^2.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

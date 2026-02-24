@@ -37,27 +37,24 @@ async function main() {
   ];
   const toolSkills = ["Docker", "AWS", "Git", "VS Code", "Figma"];
 
+  // Clear existing skills first
+  await prisma.skill.deleteMany();
+
   for (const skill of frontendSkills) {
-    await prisma.skill.upsert({
-      where: { name: skill },
-      update: {},
-      create: { name: skill, category: "frontend" },
+    await prisma.skill.create({
+      data: { name: skill, category: "frontend" },
     });
   }
 
   for (const skill of backendSkills) {
-    await prisma.skill.upsert({
-      where: { name: skill },
-      update: {},
-      create: { name: skill, category: "backend" },
+    await prisma.skill.create({
+      data: { name: skill, category: "backend" },
     });
   }
 
   for (const skill of toolSkills) {
-    await prisma.skill.upsert({
-      where: { name: skill },
-      update: {},
-      create: { name: skill, category: "tools" },
+    await prisma.skill.create({
+      data: { name: skill, category: "tools" },
     });
   }
 

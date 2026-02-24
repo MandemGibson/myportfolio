@@ -11,18 +11,20 @@ datasource db {
 }
 
 model Profile {
-  id        Int      @id @default(autoincrement())
-  name      String
-  title     String
-  email     String
-  linkedin  String?
-  github    String?
-  twitter   String?
-  bio       String
-  location  String?
-  availability String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  name           String
+  title          String
+  email          String
+  linkedin       String?
+  github         String?
+  twitter        String?
+  bio            String
+  location       String?
+  availability   String?
+  avatar         String? // Cloudinary URL for profile image
+  avatarPublicId String? // Cloudinary public ID for deletion
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@map("profiles")
 }
@@ -30,7 +32,9 @@ model Profile {
 model Skill {
   id        Int      @id @default(autoincrement())
   name      String
-  category  String   // frontend, backend, tools
+  category  String // frontend, backend, tools
+  logo      String? // Cloudinary URL for tech logo
+  publicId  String? // Cloudinary public ID for deletion
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -38,32 +42,33 @@ model Skill {
 }
 
 model Project {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  tech        String[] // Array of technologies
-  liveUrl     String?
-  githubUrl   String?
-  image       String?
-  status      String   @default("Live")
-  type        String   @default("Full Stack")
-  featured    Boolean  @default(false)
-  preview     String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            Int      @id @default(autoincrement())
+  title         String
+  description   String
+  tech          String[] // Array of technologies
+  liveUrl       String?
+  githubUrl     String?
+  image         String? // Cloudinary URL
+  imagePublicId String? // Cloudinary public ID for deletion
+  status        String   @default("Live")
+  type          String   @default("Full Stack")
+  featured      Boolean  @default(false)
+  preview       String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@map("projects")
 }
 
 model Experience {
-  id        Int      @id @default(autoincrement())
-  role      String
-  company   String
-  period    String
+  id         Int      @id @default(autoincrement())
+  role       String
+  company    String
+  period     String
   highlights String[] // Array of highlights
-  current   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  current    Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("experiences")
 }
@@ -82,22 +87,22 @@ model Education {
 }
 
 model Certification {
-  id          Int      @id @default(autoincrement())
-  name        String
-  issuer      String
-  year        String
+  id           Int      @id @default(autoincrement())
+  name         String
+  issuer       String
+  year         String
   credentialId String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("certifications")
 }
 
 model Stat {
-  id    Int    @id @default(autoincrement())
-  label String
-  value String
-  color String
+  id        Int      @id @default(autoincrement())
+  label     String
+  value     String
+  color     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { requireAuth } from "@/lib/auth";
+import { deleteFromCloudinary } from "@/lib/cloudinary";
+
+export const dynamic = "force-dynamic";
 
 // GET - Get specific project
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const projectId = parseInt(params.id);
+    const { id } = await params;
+    const projectId = parseInt(id);
 
     const project = await prisma.project.findUnique({
       where: { id: projectId },
@@ -22,7 +27,7 @@ export async function GET(
     console.error("Error fetching project:", error);
     return NextResponse.json(
       { error: "Failed to read project" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -30,11 +35,32 @@ export async function GET(
 // PUT - Update specific project
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const projectId = parseInt(params.id);
+    // Check authentication
+    const auth = requireAuth(request);
+    if (!auth.authorized) {
+      return NextResponse.json({ error: auth.error }, { status: 401 });
+    }
+
+    const { id } = await params;
+    const projectId = parseInt(id);
     const updatedData = await request.json();
+
+    // Get existing project to handle old image deletion
+    const existingProject = await prisma.project.findUnique({
+      where: { id: projectId },
+    });
+
+    // If new image provided and old image exists, delete old one
+    if (
+      updatedData.imagePublicId &&
+      existingProject?.imagePublicId &&
+      updatedData.imagePublicId !== existingProject.imagePublicId
+    ) {
+      await deleteFromCloudinary(existingProject.imagePublicId);
+    }
 
     const project = await prisma.project.update({
       where: { id: projectId },
@@ -45,6 +71,7 @@ export async function PUT(
         liveUrl: updatedData.liveUrl,
         githubUrl: updatedData.githubUrl,
         image: updatedData.image,
+        imagePublicId: updatedData.imagePublicId,
         status: updatedData.status,
         type: updatedData.type,
         featured: updatedData.featured,
@@ -63,7 +90,7 @@ export async function PUT(
     }
     return NextResponse.json(
       { error: "Failed to update project" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -71,10 +98,26 @@ export async function PUT(
 // DELETE - Delete specific project
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const projectId = parseInt(params.id);
+    // Check authentication
+    const auth = requireAuth(request);
+    if (!auth.authorized) {
+      return NextResponse.json({ error: auth.error }, { status: 401 });
+    }
+
+    const { id } = await params;
+    const projectId = parseInt(id);
+
+    // Get project to delete cloudinary image
+    const project = await prisma.project.findUnique({
+      where: { id: projectId },
+    });
+
+    if (project?.imagePublicId) {
+      await deleteFromCloudinary(project.imagePublicId);
+    }
 
     const deletedProject = await prisma.project.delete({
       where: { id: projectId },
@@ -91,7 +134,7 @@ export async function DELETE(
     }
     return NextResponse.json(
       { error: "Failed to delete project" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
