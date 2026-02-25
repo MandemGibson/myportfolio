@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const hostname = request.headers.get("host") || "";
 
   // Check if the request is from admin subdomain
@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// Configure which routes use this middleware
+// Configure which routes use this proxy
 export const config = {
   matcher: [
     /*
