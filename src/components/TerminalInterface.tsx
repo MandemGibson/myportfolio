@@ -1,19 +1,24 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, JSX } from "react";
 import { motion } from "framer-motion";
+import { PortfolioData } from "@/types/portfolio";
 
 interface TerminalInterfaceProps {
+  data: PortfolioData;
+  loading: boolean;
   onSwitchToModern: () => void;
 }
 
 interface Command {
   input: string;
-  output: string;
+  output: string | JSX.Element;
   timestamp: Date;
 }
 
 export default function TerminalInterface({
+  data,
+  loading,
   onSwitchToModern,
 }: TerminalInterfaceProps) {
   const [currentInput, setCurrentInput] = useState("");
@@ -22,7 +27,221 @@ export default function TerminalInterface({
   const [inputHistory, setInputHistory] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const commands = {
+  const TerminalLink = ({ url, text }: { url: string; text?: string }) => (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-cyan-400 hover:underline cursor-pointer inline-flex items-center group relative"
+      title="Click to follow link"
+    >
+      {text || url}
+      <span className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity text-xs text-gray-500">
+        [Ctrl+Click]
+      </span>
+    </a>
+  );
+
+  const getAboutCommand = () => {
+    if (!data.profile) return "Loading profile data...";
+    return `Hello! I'm ${data.profile.name}, ${data.profile.title}.
+
+${data.profile.bio}
+
+${data.profile.location ? `Location: ${data.profile.location}` : ""}
+${data.profile.availability ? `Status: ${data.profile.availability}` : ""}`;
+  };
+
+  const getSkillsCommand = () => {
+    if (Object.keys(data.skills).length === 0) return "Loading skills...";
+
+    return (
+      <>
+        {Object.entries(data.skills).map(([category, skills]) => (
+          <div key={category}>
+            <div className="text-green-400 font-bold capitalize mb-1">
+              {category}:
+            </div>
+            <div className="ml-4 mb-3">
+              {skills.map((skill, i) => (
+                <div key={i}>• {skill}</div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </>
+    );
+  };
+
+  const getProjectsCommand = () => {
+    if (data.projects.length === 0) return "Loading projects...";
+
+    return (
+      <div>
+        <div className="mb-3">Featured Projects:</div>
+        {data.projects
+          .filter((p) => p.featured)
+          .map((project, index) => (
+            <div key={project.id} className="mb-4">
+              <div className="text-cyan-400 font-bold">
+                {index + 1}. {project.title} ({project.status})
+              </div>
+              <div className="ml-4 mt-1">
+                <div>Tech: {project.tech.join(", ")}</div>
+                <div className="mt-1">{project.description}</div>
+                {project.liveUrl && (
+                  <div className="mt-1">
+                    Live: <TerminalLink url={project.liveUrl} />
+                  </div>
+                )}
+                {project.githubUrl && (
+                  <div className="mt-1">
+                    GitHub: <TerminalLink url={project.githubUrl} />
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        {data.projects.filter((p) => !p.featured).length > 0 && (
+          <>
+            <div className="mt-4 mb-3">Other Projects:</div>
+            {data.projects
+              .filter((p) => !p.featured)
+              .map((project) => (
+                <div key={project.id} className="mb-3">
+                  <div className="text-cyan-400">• {project.title}</div>
+                  <div className="ml-4 text-sm">
+                    <div>{project.tech.slice(0, 3).join(", ")}</div>
+                    {(project.liveUrl || project.githubUrl) && (
+                      <div className="mt-1">
+                        {project.liveUrl && (
+                          <TerminalLink url={project.liveUrl} text="Live" />
+                        )}
+                        {project.liveUrl && project.githubUrl && " | "}
+                        {project.githubUrl && (
+                          <TerminalLink url={project.githubUrl} text="Code" />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+          </>
+        )}
+      </div>
+    );
+  };
+
+  const getExperienceCommand = () => {
+    if (data.experience.length === 0) return "Loading experience...";
+
+    return (
+      <div>
+        <div className="mb-3">Work Experience:</div>
+        {data.experience.map((exp) => (
+          <div key={exp.id} className="mb-4">
+            <div className="text-cyan-400 font-bold">
+              {exp.role} - {exp.company} {exp.current && "(Current)"}
+            </div>
+            <div className="text-gray-400 text-sm mb-1">{exp.period}</div>
+            <div className="ml-4">
+              {exp.highlights.map((highlight, i) => (
+                <div key={i}>• {highlight}</div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const getEducationCommand = () => {
+    const eduContent = [];
+
+    if (data.education.length > 0) {
+      eduContent.push(
+        <div key="education" className="mb-4">
+          <div className="mb-2">Education:</div>
+          {data.education.map((edu) => (
+            <div key={edu.id} className="mb-3">
+              <div className="text-cyan-400">{edu.degree}</div>
+              <div className="ml-4">
+                <div>{edu.institution}</div>
+                <div className="text-gray-400 text-sm">
+                  {edu.period} {edu.gpa && `• GPA: ${edu.gpa}`}
+                </div>
+                {edu.description && (
+                  <div className="text-sm mt-1">{edu.description}</div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>,
+      );
+    }
+
+    if (data.certifications.length > 0) {
+      eduContent.push(
+        <div key="certifications">
+          <div className="mb-2">Certifications:</div>
+          {data.certifications.map((cert) => (
+            <div key={cert.id} className="mb-2">
+              <div className="text-cyan-400">• {cert.name}</div>
+              <div className="ml-4 text-sm">
+                {cert.issuer} ({cert.year})
+                {cert.credentialId && ` • ID: ${cert.credentialId}`}
+              </div>
+            </div>
+          ))}
+        </div>,
+      );
+    }
+
+    return eduContent.length > 0 ? (
+      <div>{eduContent}</div>
+    ) : (
+      "Loading education data..."
+    );
+  };
+
+  const getContactCommand = () => {
+    if (!data.profile) return "Loading contact info...";
+
+    return (
+      <div>
+        <div className="mb-3">Get in touch:</div>
+        {data.profile.email && (
+          <div className="mb-2">
+            Email:{" "}
+            <TerminalLink
+              url={`mailto:${data.profile.email}`}
+              text={data.profile.email}
+            />
+          </div>
+        )}
+        {data.profile.linkedin && (
+          <div className="mb-2">
+            LinkedIn: <TerminalLink url={data.profile.linkedin} />
+          </div>
+        )}
+        {data.profile.github && (
+          <div className="mb-2">
+            GitHub: <TerminalLink url={data.profile.github} />
+          </div>
+        )}
+        {data.profile.twitter && (
+          <div className="mb-2">
+            Twitter: <TerminalLink url={data.profile.twitter} />
+          </div>
+        )}
+        <div className="mt-3 text-green-400">
+          I&apos;m always interested in new opportunities and collaborations!
+        </div>
+      </div>
+    );
+  };
+
+  const commands: Record<string, string | JSX.Element> = {
     help: `Available commands:
     about     - About me
     skills    - Technical skills
@@ -36,118 +255,114 @@ export default function TerminalInterface({
     sudo hire-me - Easter egg command
     help      - Show this help`,
 
-    about: `Hello! I'm Philip Gibson Cudjoe, a passionate Full Stack Developer with 2+ years of experience.
-    
-I specialize in building modern web applications using React, Next.js, Node.js, and various cloud technologies.
-My passion lies in creating efficient, scalable solutions that solve real-world problems.
+    about: getAboutCommand(),
+    skills: getSkillsCommand(),
+    projects: getProjectsCommand(),
+    experience: getExperienceCommand(),
+    education: getEducationCommand(),
+    contact: getContactCommand(),
 
-When I'm not coding, you can find me learning new technologies, or sharing knowledge with the developer community.`,
-
-    skills: `Frontend:
-    • React, Next.js, TypeScript
-    • Tailwind CSS, Styled Components
-    • Framer Motion, GSAP
-    
-Backend:
-    • Node.js, Express.js
-    • Python, Django/FastAPI
-    • PostgreSQL, MongoDB
-    
-Tools & Cloud:
-    • Docker, Kubernetes
-    • AWS, Vercel, Netlify
-    • Git, GitHub Actions
-    • Figma, VS Code`,
-
-    projects: `Featured Projects:
-    
-1. E-Commerce Platform (2024)
-   Tech: Next.js, Node.js, PostgreSQL, Stripe
-   Live: https://example-ecommerce.com
-   GitHub: https://github.com/alex/example-ecommerce
-   
-2. Task Management App (2024)
-   Tech: React, Express.js, MongoDB
-   Live: https://example-tasks.com
-   GitHub: https://github.com/alex/example-tasks
-   
-3. Weather Dashboard (2023)
-   Tech: React, TypeScript, OpenWeather API
-   Live: https://example-weather.com
-   GitHub: https://github.com/alex/example-weather`,
-
-    experience: `Work Experience:
-    
-Senior Full Stack Developer - TechCorp (2022-Present)
-• Led development of microservices architecture
-• Improved application performance by 40%
-• Mentored junior developers
-
-Full Stack Developer - StartupXYZ (2020-2022)
-• Built responsive web applications
-• Implemented CI/CD pipelines
-• Collaborated with cross-functional teams`,
-
-    education: `Education & Certifications:
-    
-Bachelor of Computer Science - University of Technology (2018-2020)
-• GPA: 3.8/4.0
-• Relevant coursework: Data Structures, Algorithms, Database Systems
-
-Certifications:
-• AWS Certified Developer Associate (2023)
-• Google Cloud Professional Developer (2022)
-• React Developer Certification (2021)`,
-
-    contact: `Get in touch:
-    
-Email: philipgibsoncudjoe@gmail.com
-LinkedIn: https://linkedin.com/in/philip-gibson-cudjoe
-GitHub: https://github.com/MandemGibson
-Twitter: https://x.com/Mandem_Gibson
-
-I'm always interested in new opportunities and collaborations!`,
-
-    resume: `Resume download initiated...
-    
-Downloading resume.pdf...
-[████████████████████] 100%
-    
-Resume downloaded successfully!
-You can also view it online at: https://philipgibsoncudjoe.dev/resume`,
+    resume: data.profile?.resume ? (
+      <div>
+        <div className="mb-2">Resume download initiated...</div>
+        <div className="mb-2">Downloading resume.pdf...</div>
+        <div className="mb-2">[████████████████████] 100%</div>
+        <div className="mb-3 text-green-400">
+          Resume downloaded successfully!
+        </div>
+        <div>
+          View online:{" "}
+          <TerminalLink url={data.profile.resume} text="Click here" />
+        </div>
+      </div>
+    ) : (
+      "Resume not available at the moment. Please contact me directly for my latest resume."
+    ),
 
     clear: "",
 
     modern: "Switching to modern UI...",
 
-    "sudo hire-me": `Congratulations! 🎉
-You've discovered the easter egg command!
-    
-Here's what happens when you hire me:
-• I bring enthusiasm and expertise to your team
-• I write clean, maintainable code
-• I'm always learning and adapting
-• I contribute to a positive team culture
-    
-Contact me at philipgibsoncudjoe@gmail.com to discuss opportunities!`,
+    "sudo hire-me": data.profile ? (
+      <div>
+        <div className="text-cyan-400 mb-3">
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        </div>
+        <div className="text-green-400 mb-3">✓ Authentication successful</div>
+        <div className="mb-4">Initiating hiring protocol...</div>
+
+        <div className="mb-3">
+          <div className="text-yellow-400">CANDIDATE PROFILE:</div>
+          <div className="ml-4 mt-2">
+            <div>Name: {data.profile.name}</div>
+            <div>Role: {data.profile.title}</div>
+            <div>Status: {data.profile.availability || "Available"}</div>
+            {data.profile.location && (
+              <div>Location: {data.profile.location}</div>
+            )}
+          </div>
+        </div>
+
+        <div className="mb-3">
+          <div className="text-yellow-400">KEY STRENGTHS:</div>
+          <div className="ml-4 mt-2">
+            <div>→ Full-stack development expertise</div>
+            <div>→ Clean, maintainable, scalable code</div>
+            <div>→ Continuous learning and adaptation</div>
+            <div>→ Strong team collaboration</div>
+            <div>→ Problem-solving oriented mindset</div>
+          </div>
+        </div>
+
+        <div className="mb-3">
+          <div className="text-yellow-400">NEXT STEPS:</div>
+          <div className="ml-4 mt-2">
+            <div>
+              1. Review my work: Type &apos;projects&apos; or
+              &apos;experience&apos;
+            </div>
+            <div>2. Download resume: Type &apos;resume&apos;</div>
+            <div>3. Get in touch: Type &apos;contact&apos;</div>
+          </div>
+        </div>
+
+        <div className="mt-4">
+          <div className="text-green-400">Direct contact:</div>
+          <div className="ml-4 mt-1">
+            <TerminalLink
+              url={`mailto:${data.profile.email}`}
+              text={data.profile.email}
+            />
+          </div>
+        </div>
+
+        <div className="text-cyan-400 mt-3">
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        </div>
+      </div>
+    ) : (
+      "Loading..."
+    ),
   };
 
   useEffect(() => {
-    // Add initial welcome message
-    setCommandHistory([
-      {
-        input: "",
-        output: `Welcome to Philip Gibson Cudjoe's Terminal Interface!
+    // Add initial welcome message after data is loaded
+    if (!loading && data.profile) {
+      setCommandHistory([
+        {
+          input: "",
+          output: `Welcome to ${data.profile.name}'s Terminal Interface!
 Type 'help' to see available commands.`,
-        timestamp: new Date(),
-      },
-    ]);
+          timestamp: new Date(),
+        },
+      ]);
+    }
 
     // Focus input on mount
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, []);
+  }, [loading, data.profile]);
 
   const executeCommand = (input: string) => {
     const trimmedInput = input.trim().toLowerCase();

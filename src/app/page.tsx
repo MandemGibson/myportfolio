@@ -1,14 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import TerminalInterface from "@/components/TerminalInterface";
 import ModernPortfolio from "@/components/ModernPortfolio";
+import { PortfolioData } from "@/types/portfolio";
 
 export default function Home() {
   const [viewMode, setViewMode] = useState<"landing" | "terminal" | "modern">(
-    "landing"
+    "landing",
   );
+  const [data, setData] = useState<PortfolioData>({
+    profile: null,
+    skills: {},
+    projects: [],
+    experience: [],
+    education: [],
+    certifications: [],
+    stats: [],
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPortfolioData();
+  }, []);
+
+  const fetchPortfolioData = async () => {
+    try {
+      const response = await fetch("/api/portfolio");
+      if (response.ok) {
+        const portfolioData = await response.json();
+        setData(portfolioData);
+      }
+    } catch (error) {
+      console.error("Error fetching portfolio:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleModeSelection = (mode: "terminal" | "modern") => {
     setViewMode(mode);
@@ -107,7 +136,11 @@ export default function Home() {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.5 }}
           >
-            <TerminalInterface onSwitchToModern={() => setViewMode("modern")} />
+            <TerminalInterface
+              data={data}
+              loading={loading}
+              onSwitchToModern={() => setViewMode("modern")}
+            />
           </motion.div>
         )}
 
@@ -120,6 +153,8 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <ModernPortfolio
+              data={data}
+              loading={loading}
               onSwitchToTerminal={() => setViewMode("terminal")}
             />
           </motion.div>

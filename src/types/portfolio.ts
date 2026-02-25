@@ -1,28 +1,4 @@
-export interface Project {
-  id: number;
-  title: string;
-  description: string;
-  tech: string[];
-  liveUrl?: string;
-  githubUrl?: string;
-  image?: string;
-  imagePublicId?: string;
-  status: string;
-  type: string;
-  featured: boolean;
-  preview?: string;
-}
-
-export interface Skill {
-  id: number;
-  name: string;
-  category: string;
-  logo?: string;
-  publicId?: string;
-}
-
 export interface Profile {
-  id: number;
   name: string;
   title: string;
   email: string;
@@ -33,9 +9,19 @@ export interface Profile {
   location?: string;
   availability?: string;
   avatar?: string;
-  avatarPublicId?: string;
   resume?: string;
-  resumePublicId?: string;
+}
+
+export interface Project {
+  id: number;
+  title: string;
+  description: string;
+  tech: string[];
+  liveUrl?: string;
+  githubUrl?: string;
+  image?: string;
+  featured: boolean;
+  status: string;
 }
 
 export interface Experience {
@@ -64,11 +50,13 @@ export interface Certification {
   credentialId?: string;
 }
 
-export type Tab =
-  | "projects"
-  | "skills"
-  | "experiences"
-  | "education"
-  | "certifications"
-  | "profile"
-  | "settings";
+export interface PortfolioData {
+  profile: Profile | null;
+  skills: Record<string, string[]>;
+  projects: Project[];
+  experience: Experience[];
+  education: Education[];
+  certifications: Certification[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  stats: any[];
+}

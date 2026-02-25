@@ -23,6 +23,8 @@ model Profile {
   availability   String?
   avatar         String? // Cloudinary URL for profile image
   avatarPublicId String? // Cloudinary public ID for deletion
+  resume         String? // Cloudinary URL for resume PDF
+  resumePublicId String? // Cloudinary public ID for deletion
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 

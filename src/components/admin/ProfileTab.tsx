@@ -61,6 +61,32 @@ export default function ProfileTab({
     }
   };
 
+  const handleResumeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type (PDF only)
+      if (file.type !== "application/pdf") {
+        alert("Please upload a PDF file");
+        return;
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size must be less than 5MB");
+        return;
+      }
+
+      const result = await uploadImage(file, "portfolio/resume");
+      if (result) {
+        setFormData({
+          ...formData,
+          resume: result.url,
+          resumePublicId: result.publicId,
+        });
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -267,6 +293,48 @@ export default function ProfileTab({
                   className="w-full px-3 py-2 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent transition-all text-sm"
                   placeholder="Available for new opportunities"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                  Resume (PDF)
+                </label>
+                <div className="space-y-2">
+                  {formData.resume && (
+                    <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                      <span className="truncate">Current resume uploaded</span>
+                      <a
+                        href={formData.resume}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-neutral-900 dark:text-white hover:underline"
+                      >
+                        View
+                      </a>
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    id="resume-upload"
+                    accept=".pdf"
+                    onChange={handleResumeUpload}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor="resume-upload"
+                    className="flex items-center justify-center gap-2 px-4 py-2 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition-all text-sm text-neutral-700 dark:text-neutral-300"
+                  >
+                    {uploading
+                      ? "Uploading..."
+                      : formData.resume
+                        ? "Replace Resume"
+                        : "Upload Resume"}
+                    <Upload size={16} />
+                  </label>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-500">
+                    PDF only, max 5MB
+                  </p>
+                </div>
               </div>
             </div>
 
