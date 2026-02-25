@@ -116,44 +116,41 @@ export default function ModernPortfolio({
       <motion.header
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-black/60 backdrop-blur-xl border border-cyan-400/30 rounded-full px-4 md:px-6 py-2 md:py-3 shadow-2xl shadow-cyan-500/10"
+        className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl border border-neutral-200 dark:border-neutral-800 rounded-full px-4 md:px-6 py-2 md:py-3 shadow-lg"
       >
         <div className="flex justify-between items-center space-x-4 md:space-x-8">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-lg md:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
-          >
+          <div className="text-lg md:text-xl font-semibold text-neutral-900 dark:text-white">
             Philip Gibson Cudjoe
-          </motion.div>
+          </div>
 
           <nav className="hidden md:flex space-x-6">
             <a
               href="#about"
-              className="px-3 py-1 text-sm hover:text-cyan-400 hover:bg-cyan-400/10 rounded-full transition-all duration-300"
+              className="px-3 py-1 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-all duration-200"
             >
               About
             </a>
             <a
               href="#skills"
-              className="px-3 py-1 text-sm hover:text-cyan-400 hover:bg-cyan-400/10 rounded-full transition-all duration-300"
+              className="px-3 py-1 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-all duration-200"
             >
               Skills
             </a>
             <a
               href="#projects"
-              className="px-3 py-1 text-sm hover:text-cyan-400 hover:bg-cyan-400/10 rounded-full transition-all duration-300"
+              className="px-3 py-1 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-all duration-200"
             >
               Projects
             </a>
             <a
               href="#experience"
-              className="px-3 py-1 text-sm hover:text-cyan-400 hover:bg-cyan-400/10 rounded-full transition-all duration-300"
+              className="px-3 py-1 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-all duration-200"
             >
               Experience
             </a>
             <a
               href="#contact"
-              className="px-3 py-1 text-sm hover:text-cyan-400 hover:bg-cyan-400/10 rounded-full transition-all duration-300"
+              className="px-3 py-1 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-all duration-200"
             >
               Contact
             </a>
@@ -162,7 +159,7 @@ export default function ModernPortfolio({
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="hidden md:block p-2 rounded-full hover:bg-cyan-400/10 hover:text-cyan-400 transition-all duration-300"
+              className="hidden md:block p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-all duration-200"
             >
               {darkMode ? (
                 <Sun className="w-4 h-4" />
@@ -172,14 +169,14 @@ export default function ModernPortfolio({
             </button>
             <button
               onClick={onSwitchToTerminal}
-              className="hidden md:block p-2 rounded-full hover:bg-cyan-400/10 hover:text-cyan-400 transition-all duration-300"
+              className="hidden md:block p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-all duration-200"
               title="Switch to Terminal Mode"
             >
               <Terminal className="w-4 h-4" />
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-full hover:bg-cyan-400/10 hover:text-cyan-400 transition-all duration-300"
+              className="md:hidden p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-all duration-200"
             >
               {mobileMenuOpen ? (
                 <X className="w-4 h-4" />
@@ -276,20 +273,20 @@ export default function ModernPortfolio({
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.8 }}
-              className="text-6xl md:text-8xl font-bold mb-6"
+              className="text-5xl md:text-7xl font-bold mb-6"
             >
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-neutral-900 dark:text-white">
                 Full Stack
               </span>
               <br />
-              <span className="text-white">Developer</span>
+              <span className="text-neutral-600 dark:text-neutral-400">Developer</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto"
+              className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 mb-8 max-w-2xl mx-auto"
             >
               Building modern web applications with passion and precision.
               Specializing in React, Node.js, and cloud technologies.
@@ -301,11 +298,11 @@ export default function ModernPortfolio({
               transition={{ delay: 0.6, duration: 0.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105">
+              <button className="px-8 py-3 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg font-medium hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-all duration-200">
                 <Download className="w-5 h-5 inline mr-2" />
                 Download Resume
               </button>
-              <button className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 rounded-full font-semibold hover:bg-cyan-400 hover:text-black transition-all duration-300">
+              <button className="px-8 py-3 border-2 border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white rounded-lg font-medium hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200">
                 <Mail className="w-5 h-5 inline mr-2" />
                 Get In Touch
               </button>
@@ -323,17 +320,15 @@ export default function ModernPortfolio({
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
-            <div className="inline-block px-6 py-2 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-full border border-cyan-400/20 mb-6">
-              <span className="text-cyan-400 font-medium text-sm tracking-wide uppercase">
+            <div className="inline-block px-4 py-2 bg-neutral-100 dark:bg-neutral-800 rounded-full mb-6">
+              <span className="text-neutral-700 dark:text-neutral-300 font-medium text-sm tracking-wide uppercase">
                 Technical Expertise
               </span>
             </div>
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                Skills & Tools
-              </span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-neutral-900 dark:text-white">
+              Skills & Tools
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
               A comprehensive toolkit for building exceptional digital
               experiences
             </p>
@@ -352,24 +347,23 @@ export default function ModernPortfolio({
                 {/* Category Header */}
                 <div className="flex items-center mb-8">
                   <div className="relative">
-                    <div className="p-4 rounded-2xl bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-cyan-400/30">
+                    <div className="p-4 rounded-xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
                       {category === "frontend" && (
-                        <Palette className="w-8 h-8 text-cyan-400" />
+                        <Palette className="w-8 h-8 text-neutral-700 dark:text-neutral-300" />
                       )}
                       {category === "backend" && (
-                        <Database className="w-8 h-8 text-blue-400" />
+                        <Database className="w-8 h-8 text-neutral-700 dark:text-neutral-300" />
                       )}
                       {category === "tools" && (
-                        <Cloud className="w-8 h-8 text-purple-400" />
+                        <Cloud className="w-8 h-8 text-neutral-700 dark:text-neutral-300" />
                       )}
                     </div>
-                    <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   </div>
                   <div className="ml-6">
-                    <h3 className="text-3xl font-bold capitalize mb-2 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                    <h3 className="text-2xl font-bold capitalize mb-1 text-neutral-900 dark:text-white">
                       {category}
                     </h3>
-                    <p className="text-gray-400">
+                    <p className="text-neutral-600 dark:text-neutral-400 text-sm">
                       {category === "frontend" &&
                         "User interface and experience"}
                       {category === "backend" && "Server-side development"}
