@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Github, X } from "lucide-react";
+import Image from "next/image";
 
 interface Project {
   id: number;
@@ -36,6 +37,7 @@ export default function ProjectPreview({
     if (isOpen && projectId) {
       fetchProject();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, projectId]);
 
   const fetchProject = async () => {
@@ -102,7 +104,7 @@ export default function ProjectPreview({
                 {project.image && (
                   <div className="mb-6">
                     <div className="relative rounded-xl overflow-hidden bg-gray-800">
-                      <img
+                      <Image
                         src={project.image}
                         alt={project.title}
                         className="w-full h-64 object-cover"
