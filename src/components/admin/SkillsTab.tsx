@@ -9,12 +9,6 @@ import type { Skill } from "@/types/admin";
 interface SkillsTabProps {
   skills: Record<string, Skill[]>;
   apiKey: string;
-  uploading: boolean;
-  uploadTechLogo: (
-    file: File,
-    techName: string,
-    skillId?: number,
-  ) => Promise<{ url: string; publicId: string } | null>;
   fetchSkills: () => void;
 }
 

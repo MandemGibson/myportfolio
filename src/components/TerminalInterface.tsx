@@ -64,7 +64,7 @@ ${data.profile.availability ? `Status: ${data.profile.availability}` : ""}`;
             </div>
             <div className="ml-4 mb-3">
               {skills.map((skill, i) => (
-                <div key={i}>• {skill}</div>
+                <div key={i}>• {skill.name}</div>
               ))}
             </div>
           </div>

@@ -90,14 +90,7 @@ export default function SettingsTab({ apiKey }: SettingsTabProps) {
                 /api/upload
               </code>
             </div>
-            <div className="flex justify-between items-center p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700">
-              <span className="text-neutral-700 dark:text-neutral-300 font-medium">
-                Upload Tech Logo
-              </span>
-              <code className="text-neutral-900 dark:text-white bg-neutral-100 dark:bg-neutral-700 px-2 py-1 rounded">
-                /api/upload/tech-logo
-              </code>
-            </div>
+            
           </div>
         </div>
 

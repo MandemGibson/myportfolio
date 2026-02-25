@@ -571,8 +571,6 @@ export default function AdminPage() {
                 <SkillsTab
                   skills={skills}
                   apiKey={apiKey}
-                  uploading={uploading}
-                  uploadTechLogo={() => Promise.resolve(null)}
                   fetchSkills={fetchSkills}
                 />
               )}
