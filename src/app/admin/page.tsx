@@ -31,6 +31,11 @@ import EducationTab from "@/components/admin/EducationTab";
 import CertificationsTab from "@/components/admin/CertificationsTab";
 import ProfileTab from "@/components/admin/ProfileTab";
 import SettingsTab from "@/components/admin/SettingsTab";
+import {
+  GridSkeleton,
+  ListSkeleton,
+  ProfileSkeleton,
+} from "@/components/admin/LoadingSkeleton";
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<Tab>("projects");
@@ -38,6 +43,7 @@ export default function AdminPage() {
   const [showApiKey, setShowApiKey] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Projects state
   const [projects, setProjects] = useState<Project[]>([]);
@@ -61,6 +67,7 @@ export default function AdminPage() {
   const [uploading, setUploading] = useState(false);
 
   const fetchData = useCallback(async () => {
+    setIsLoading(true);
     try {
       await Promise.all([
         fetchProjects(),
@@ -72,16 +79,27 @@ export default function AdminPage() {
       ]);
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    const savedApiKey = localStorage.getItem("admin_api_key");
-    if (savedApiKey) {
-      setApiKey(savedApiKey);
-      setIsAuthenticated(true);
-      fetchData();
-    }
+    const checkAuth = async () => {
+      try {
+        const response = await fetch("/api/auth/check");
+        const data = await response.json();
+
+        if (data.authenticated) {
+          setIsAuthenticated(true);
+          fetchData();
+        }
+      } catch (error) {
+        console.error("Error checking authentication:", error);
+      }
+    };
+
+    checkAuth();
   }, [fetchData]);
 
   const fetchProjects = async () => {
@@ -156,18 +174,43 @@ export default function AdminPage() {
     }
   };
 
-  const handleLogin = () => {
-    if (apiKey) {
-      localStorage.setItem("admin_api_key", apiKey);
-      setIsAuthenticated(true);
-      fetchData();
+  const handleLogin = async () => {
+    if (!apiKey) return;
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ apiKey }),
+      });
+
+      if (response.ok) {
+        setIsAuthenticated(true);
+        setApiKey(""); // Clear the input for security
+        fetchData();
+      } else {
+        const data = await response.json();
+        alert(data.error || "Invalid API key. Please check your credentials.");
+        setApiKey("");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Failed to authenticate. Please try again.");
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("admin_api_key");
-    setApiKey("");
-    setIsAuthenticated(false);
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+      setApiKey("");
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   const uploadImage = async (
@@ -539,55 +582,70 @@ export default function AdminPage() {
 
         {/* Content */}
         <AnimatePresence mode="wait">
-          {activeTab === "projects" && (
-            <ProjectsTab
-              projects={projects}
-              apiKey={apiKey}
-              uploading={uploading}
-              uploadImage={uploadImage}
-              fetchProjects={fetchProjects}
-            />
+          {isLoading ? (
+            // Loading skeletons
+            <>
+              {activeTab === "projects" && <GridSkeleton count={6} />}
+              {activeTab === "skills" && <GridSkeleton count={9} />}
+              {activeTab === "experiences" && <ListSkeleton count={4} />}
+              {activeTab === "education" && <ListSkeleton count={3} />}
+              {activeTab === "certifications" && <ListSkeleton count={3} />}
+              {activeTab === "profile" && <ProfileSkeleton />}
+            </>
+          ) : (
+            // Actual content
+            <>
+              {activeTab === "projects" && (
+                <ProjectsTab
+                  projects={projects}
+                  apiKey={apiKey}
+                  uploading={uploading}
+                  uploadImage={uploadImage}
+                  fetchProjects={fetchProjects}
+                />
+              )}
+              {activeTab === "skills" && (
+                <SkillsTab
+                  skills={skills}
+                  apiKey={apiKey}
+                  uploading={uploading}
+                  uploadTechLogo={uploadTechLogo}
+                  fetchSkills={fetchSkills}
+                />
+              )}
+              {activeTab === "experiences" && (
+                <ExperiencesTab
+                  experiences={experiences}
+                  apiKey={apiKey}
+                  fetchExperiences={fetchExperiences}
+                />
+              )}
+              {activeTab === "education" && (
+                <EducationTab
+                  education={education}
+                  apiKey={apiKey}
+                  fetchEducation={fetchEducation}
+                />
+              )}
+              {activeTab === "certifications" && (
+                <CertificationsTab
+                  certifications={certifications}
+                  apiKey={apiKey}
+                  fetchCertifications={fetchCertifications}
+                />
+              )}
+              {activeTab === "profile" && (
+                <ProfileTab
+                  profile={profile}
+                  apiKey={apiKey}
+                  uploading={uploading}
+                  uploadImage={uploadImage}
+                  fetchProfile={fetchProfile}
+                />
+              )}
+              {activeTab === "settings" && <SettingsTab apiKey={apiKey} />}
+            </>
           )}
-          {activeTab === "skills" && (
-            <SkillsTab
-              skills={skills}
-              apiKey={apiKey}
-              uploading={uploading}
-              uploadTechLogo={uploadTechLogo}
-              fetchSkills={fetchSkills}
-            />
-          )}
-          {activeTab === "experiences" && (
-            <ExperiencesTab
-              experiences={experiences}
-              apiKey={apiKey}
-              fetchExperiences={fetchExperiences}
-            />
-          )}
-          {activeTab === "education" && (
-            <EducationTab
-              education={education}
-              apiKey={apiKey}
-              fetchEducation={fetchEducation}
-            />
-          )}
-          {activeTab === "certifications" && (
-            <CertificationsTab
-              certifications={certifications}
-              apiKey={apiKey}
-              fetchCertifications={fetchCertifications}
-            />
-          )}
-          {activeTab === "profile" && (
-            <ProfileTab
-              profile={profile}
-              apiKey={apiKey}
-              uploading={uploading}
-              uploadImage={uploadImage}
-              fetchProfile={fetchProfile}
-            />
-          )}
-          {activeTab === "settings" && <SettingsTab apiKey={apiKey} />}
         </AnimatePresence>
       </div>
     </div>

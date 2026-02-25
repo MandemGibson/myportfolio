@@ -1,7 +1,8 @@
 import { NextRequest } from "next/server";
 
 export function isAuthenticated(request: NextRequest): boolean {
-  const apiKey = request.headers.get("x-api-key");
+  // Check for cookie-based authentication
+  const sessionCookie = request.cookies.get("admin_session");
   const adminKey = process.env.ADMIN_API_KEY;
 
   if (!adminKey) {
@@ -9,6 +10,13 @@ export function isAuthenticated(request: NextRequest): boolean {
     return false;
   }
 
+  // Check session cookie first
+  if (sessionCookie?.value === adminKey) {
+    return true;
+  }
+
+  // Fallback to API key header for backward compatibility
+  const apiKey = request.headers.get("x-api-key");
   return apiKey === adminKey;
 }
 
