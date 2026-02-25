@@ -18,10 +18,10 @@
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.545.0",
     "multer": "^2.0.2",
-    "next": "15.5.5",
+    "next": "^16.1.6",
     "next-connect": "^1.0.0",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-terminal-ui": "^1.4.0"
   },
   "devDependencies": {
