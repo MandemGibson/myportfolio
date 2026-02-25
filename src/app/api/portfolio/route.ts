@@ -23,13 +23,29 @@ export async function GET() {
     ]);
 
     // Group skills by category
-    const skillsByCategory = skills.reduce((acc, skill) => {
-      if (!acc[skill.category]) {
-        acc[skill.category] = [];
-      }
-      acc[skill.category].push(skill.name);
-      return acc;
-    }, {} as Record<string, string[]>);
+    const skillsByCategory = skills.reduce(
+      (acc, skill) => {
+        if (!acc[skill.category]) {
+          acc[skill.category] = [];
+        }
+        acc[skill.category].push({
+          id: skill.id,
+          name: skill.name,
+          category: skill.category,
+          iconSlug: skill.iconSlug,
+        });
+        return acc;
+      },
+      {} as Record<
+        string,
+        Array<{
+          id: number;
+          name: string;
+          category: string;
+          iconSlug: string | null;
+        }>
+      >,
+    );
 
     const portfolio = {
       profile,
@@ -46,7 +62,7 @@ export async function GET() {
     console.error("Error fetching portfolio data:", error);
     return NextResponse.json(
       { error: "Failed to read portfolio data" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -60,7 +76,7 @@ export async function PUT(request: NextRequest) {
     if (!updatedData.profile || !updatedData.skills || !updatedData.projects) {
       return NextResponse.json(
         { error: "Invalid data structure" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -146,7 +162,7 @@ export async function PUT(request: NextRequest) {
     console.error("Error updating portfolio data:", error);
     return NextResponse.json(
       { error: "Failed to update portfolio data" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

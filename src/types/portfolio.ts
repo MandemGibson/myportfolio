@@ -50,9 +50,16 @@ export interface Certification {
   credentialId?: string;
 }
 
+export interface Skill {
+  id: number;
+  name: string;
+  category: string;
+  iconSlug?: string;
+}
+
 export interface PortfolioData {
   profile: Profile | null;
-  skills: Record<string, string[]>;
+  skills: Record<string, Skill[]>;
   projects: Project[];
   experience: Experience[];
   education: Education[];

@@ -24,9 +24,6 @@ export default function ModernPortfolio({
   const [darkMode, setDarkMode] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Flatten all skills into a single array
-  const allSkills = Object.values(data.skills).flat();
-
   if (loading) {
     return (
       <div
@@ -66,7 +63,7 @@ export default function ModernPortfolio({
 
         <HeroSection profile={data.profile} darkMode={darkMode} />
 
-        <SkillsSection skills={allSkills} darkMode={darkMode} />
+        <SkillsSection skills={data.skills} darkMode={darkMode} />
 
         <ProjectsSection projects={data.projects} darkMode={darkMode} />
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Plus, Edit, Trash2, Save, X, Upload, Code } from "lucide-react";
+import { Plus, Edit, Trash2, Save, Code, X } from "lucide-react";
 import type { Skill } from "@/types/admin";
 
 interface SkillsTabProps {
@@ -21,8 +21,6 @@ interface SkillsTabProps {
 export default function SkillsTab({
   skills,
   apiKey,
-  uploading,
-  uploadTechLogo,
   fetchSkills,
 }: SkillsTabProps) {
   const [showForm, setShowForm] = useState(false);
@@ -30,29 +28,8 @@ export default function SkillsTab({
   const [formData, setFormData] = useState({
     name: "",
     category: "frontend",
-    logo: "",
-    publicId: "",
+    iconSlug: "",
   });
-
-  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && formData.name) {
-      const result = await uploadTechLogo(
-        file,
-        formData.name,
-        editingSkill?.id,
-      );
-      if (result) {
-        setFormData({
-          ...formData,
-          logo: result.url,
-          publicId: result.publicId,
-        });
-      }
-    } else if (!formData.name) {
-      alert("Please enter a skill name first");
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +53,7 @@ export default function SkillsTab({
         alert(`Skill ${editingSkill ? "updated" : "created"} successfully!`);
         setShowForm(false);
         setEditingSkill(null);
-        setFormData({ name: "", category: "frontend", logo: "", publicId: "" });
+        setFormData({ name: "", category: "frontend", iconSlug: "" });
         fetchSkills();
       } else {
         const error = await response.json();
@@ -93,8 +70,7 @@ export default function SkillsTab({
     setFormData({
       name: skill.name,
       category: skill.category,
-      logo: skill.logo || "",
-      publicId: skill.publicId || "",
+      iconSlug: skill.iconSlug || "",
     });
     setShowForm(true);
   };
@@ -151,8 +127,7 @@ export default function SkillsTab({
             setFormData({
               name: "",
               category: "frontend",
-              logo: "",
-              publicId: "",
+              iconSlug: "",
             });
           }}
           className="flex items-center gap-2 px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-all text-sm font-medium"
@@ -216,47 +191,55 @@ export default function SkillsTab({
                   <option value="tools">Tools</option>
                 </select>
               </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
-                Tech Logo
-              </label>
-              <div className="flex items-center gap-4">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleLogoUpload}
-                  className="hidden"
-                  id="skill-logo"
-                />
-                <label
-                  htmlFor="skill-logo"
-                  className="flex items-center gap-2 px-4 py-2 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 rounded-lg cursor-pointer transition-all text-sm font-medium"
-                >
-                  <Upload size={16} />
-                  {uploading ? "Uploading..." : "Upload Logo"}
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                  Icon Slug
                 </label>
-                {formData.logo && (
-                  <Image
-                    src={formData.logo}
-                    alt="Logo Preview"
-                    width={64}
-                    height={64}
-                    className="h-16 w-16 object-contain rounded-lg bg-white dark:bg-neutral-800 p-2 border border-neutral-200 dark:border-neutral-700"
-                  />
+                <input
+                  type="text"
+                  value={formData.iconSlug}
+                  onChange={(e) =>
+                    setFormData({ ...formData, iconSlug: e.target.value })
+                  }
+                  className="w-full px-3 py-2 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent transition-all text-sm"
+                  placeholder="e.g., react, nextdotjs, typescript"
+                />
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                  Find slugs at{" "}
+                  <a
+                    href="https://simpleicons.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                  >
+                    simpleicons.org
+                  </a>
+                </p>
+                {formData.iconSlug && (
+                  <div className="mt-3 flex items-center gap-3">
+                    <span className="text-xs text-neutral-600 dark:text-neutral-400">
+                      Preview:
+                    </span>
+                    <Image
+                      src={`https://cdn.simpleicons.org/${formData.iconSlug}`}
+                      alt="Icon Preview"
+                      width={32}
+                      height={32}
+                      className="h-8 w-8"
+                      unoptimized
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  </div>
                 )}
               </div>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-2">
-                Enter skill name first, then upload logo
-              </p>
             </div>
 
             <div className="flex gap-3 pt-4">
               <button
                 type="submit"
-                disabled={uploading}
-                className="flex-1 flex items-center justify-center gap-2 px-6 py-2.5 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-all disabled:opacity-50 text-sm font-medium"
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-2.5 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-all text-sm font-medium"
               >
                 <Save size={16} />
                 {editingSkill ? "Update Skill" : "Create Skill"}
@@ -295,22 +278,32 @@ export default function SkillsTab({
                   className="bg-neutral-50 dark:bg-neutral-800 rounded-lg p-4 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all group border border-neutral-200 dark:border-neutral-700"
                 >
                   <div className="flex flex-col items-center text-center gap-2">
-                    {skill.logo ? (
+                    {skill.iconSlug ? (
                       <Image
-                        src={skill.logo}
+                        src={`https://cdn.simpleicons.org/${skill.iconSlug}`}
                         alt={skill.name}
                         width={48}
                         height={48}
-                        className="h-12 w-12 object-contain"
+                        className="h-12 w-12"
+                        unoptimized
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.style.display = "none";
+                          const fallback =
+                            target.nextElementSibling as HTMLElement;
+                          if (fallback) fallback.style.display = "flex";
+                        }}
                       />
-                    ) : (
-                      <div className="h-12 w-12 bg-neutral-200 dark:bg-neutral-700 rounded flex items-center justify-center">
-                        <Code
-                          size={24}
-                          className="text-neutral-400 dark:text-neutral-500"
-                        />
-                      </div>
-                    )}
+                    ) : null}
+                    <div
+                      className="h-12 w-12 bg-neutral-200 dark:bg-neutral-700 rounded flex items-center justify-center"
+                      style={{ display: skill.iconSlug ? "none" : "flex" }}
+                    >
+                      <Code
+                        size={24}
+                        className="text-neutral-400 dark:text-neutral-500"
+                      />
+                    </div>
                     <span className="text-sm font-medium text-neutral-900 dark:text-white">
                       {skill.name}
                     </span>

@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireAuth } from "@/lib/auth";
-import { deleteFromCloudinary } from "@/lib/cloudinary";
 
 export const dynamic = "force-dynamic";
 
-// GET - Get all skills with logos
+// GET - Get all skills
 export async function GET() {
   try {
     const skills = await prisma.skill.findMany({
@@ -21,8 +20,8 @@ export async function GET() {
         acc[skill.category].push({
           id: skill.id,
           name: skill.name,
-          logo: skill.logo,
-          publicId: skill.publicId,
+          category: skill.category,
+          iconSlug: skill.iconSlug,
         });
         return acc;
       },
@@ -31,8 +30,8 @@ export async function GET() {
         Array<{
           id: number;
           name: string;
-          logo: string | null;
-          publicId: string | null;
+          category: string;
+          iconSlug: string | null;
         }>
       >,
     );
@@ -56,7 +55,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: auth.error }, { status: 401 });
     }
 
-    const { name, category, logo, publicId } = await request.json();
+    const { name, category, iconSlug } = await request.json();
 
     if (!name || !category) {
       return NextResponse.json(
@@ -66,7 +65,7 @@ export async function POST(request: NextRequest) {
     }
 
     const skill = await prisma.skill.create({
-      data: { name, category, logo, publicId },
+      data: { name, category, iconSlug },
     });
 
     return NextResponse.json(skill);
@@ -88,7 +87,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: auth.error }, { status: 401 });
     }
 
-    const { id, name, category, logo, publicId } = await request.json();
+    const { id, name, category, iconSlug } = await request.json();
 
     if (!id) {
       return NextResponse.json(
@@ -99,7 +98,7 @@ export async function PUT(request: NextRequest) {
 
     const skill = await prisma.skill.update({
       where: { id: parseInt(id) },
-      data: { name, category, logo, publicId },
+      data: { name, category, iconSlug },
     });
 
     return NextResponse.json(skill);
@@ -129,15 +128,6 @@ export async function DELETE(request: NextRequest) {
         { error: "Skill ID is required" },
         { status: 400 },
       );
-    }
-
-    // Get skill to delete cloudinary image
-    const skill = await prisma.skill.findUnique({
-      where: { id: parseInt(id) },
-    });
-
-    if (skill?.publicId) {
-      await deleteFromCloudinary(skill.publicId);
     }
 
     await prisma.skill.delete({

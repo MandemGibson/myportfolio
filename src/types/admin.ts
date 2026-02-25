@@ -17,8 +17,7 @@ export interface Skill {
   id: number;
   name: string;
   category: string;
-  logo?: string;
-  publicId?: string;
+  iconSlug?: string;
 }
 
 export interface Profile {

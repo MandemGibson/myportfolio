@@ -248,43 +248,6 @@ export default function AdminPage() {
     }
   };
 
-  const uploadTechLogo = async (
-    file: File,
-    techName: string,
-    skillId?: number,
-  ): Promise<{ url: string; publicId: string } | null> => {
-    setUploading(true);
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("techName", techName);
-      if (skillId) formData.append("skillId", skillId.toString());
-
-      const response = await fetch("/api/upload/tech-logo", {
-        method: "POST",
-        headers: {
-          "x-api-key": apiKey,
-        },
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        return { url: data.url, publicId: data.publicId };
-      } else {
-        const error = await response.json();
-        alert(error.error || "Failed to upload logo");
-        return null;
-      }
-    } catch (error) {
-      console.error("Error uploading logo:", error);
-      alert("Failed to upload logo");
-      return null;
-    } finally {
-      setUploading(false);
-    }
-  };
-
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-white dark:bg-neutral-950 flex items-center justify-center p-4">
@@ -609,7 +572,7 @@ export default function AdminPage() {
                   skills={skills}
                   apiKey={apiKey}
                   uploading={uploading}
-                  uploadTechLogo={uploadTechLogo}
+                  uploadTechLogo={() => Promise.resolve(null)}
                   fetchSkills={fetchSkills}
                 />
               )}

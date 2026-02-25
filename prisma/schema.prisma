@@ -35,8 +35,7 @@ model Skill {
   id        Int      @id @default(autoincrement())
   name      String
   category  String // frontend, backend, tools
-  logo      String? // Cloudinary URL for tech logo
-  publicId  String? // Cloudinary public ID for deletion
+  iconSlug  String? // Simple Icons slug (e.g., "react", "nextdotjs")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

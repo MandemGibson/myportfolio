@@ -20,41 +20,51 @@ async function main() {
     },
   });
 
-  // Create skills
+  // Create skills with icon slugs
   const frontendSkills = [
-    "React",
-    "Next.js",
-    "TypeScript",
-    "Tailwind CSS",
-    "Framer Motion",
+    { name: "React", iconSlug: "react" },
+    { name: "Next.js", iconSlug: "nextdotjs" },
+    { name: "TypeScript", iconSlug: "typescript" },
+    { name: "Tailwind CSS", iconSlug: "tailwindcss" },
+    { name: "Framer Motion", iconSlug: "framer" },
   ];
   const backendSkills = [
-    "Node.js",
-    "Express.js",
-    "Python",
-    "PostgreSQL",
-    "MongoDB",
+    { name: "Node.js", iconSlug: "nodedotjs" },
+    { name: "Express.js", iconSlug: "express" },
+    { name: "Python", iconSlug: "python" },
+    { name: "PostgreSQL", iconSlug: "postgresql" },
+    { name: "MongoDB", iconSlug: "mongodb" },
   ];
-  const toolSkills = ["Docker", "AWS", "Git", "VS Code", "Figma"];
+  const toolSkills = [
+    { name: "Docker", iconSlug: "docker" },
+    { name: "AWS", iconSlug: "amazonaws" },
+    { name: "Git", iconSlug: "git" },
+    { name: "VS Code", iconSlug: "visualstudiocode" },
+    { name: "Figma", iconSlug: "figma" },
+  ];
 
   // Clear existing skills first
   await prisma.skill.deleteMany();
 
   for (const skill of frontendSkills) {
     await prisma.skill.create({
-      data: { name: skill, category: "frontend" },
+      data: {
+        name: skill.name,
+        category: "frontend",
+        iconSlug: skill.iconSlug,
+      },
     });
   }
 
   for (const skill of backendSkills) {
     await prisma.skill.create({
-      data: { name: skill, category: "backend" },
+      data: { name: skill.name, category: "backend", iconSlug: skill.iconSlug },
     });
   }
 
   for (const skill of toolSkills) {
     await prisma.skill.create({
-      data: { name: skill, category: "tools" },
+      data: { name: skill.name, category: "tools", iconSlug: skill.iconSlug },
     });
   }
 
@@ -66,7 +76,8 @@ async function main() {
       tech: ["Next.js", "Node.js", "PostgreSQL", "Stripe"],
       liveUrl: "https://example-ecommerce.com",
       githubUrl: "https://github.com/MandemGibson/example-ecommerce",
-      image: "/api/placeholder/400/300",
+      image:
+        "https://res.cloudinary.com/dyzlw51f9/image/upload/v1771977757/portfolio/projects/parflwecfrbuevy40r1r.png",
       status: "Live",
       type: "Full Stack",
       featured: true,
@@ -80,7 +91,8 @@ async function main() {
       tech: ["React", "Express.js", "MongoDB", "Socket.io"],
       liveUrl: "https://example-tasks.com",
       githubUrl: "https://github.com/MandemGibson/example-tasks",
-      image: "/api/placeholder/400/300",
+      image:
+        "https://res.cloudinary.com/dyzlw51f9/image/upload/v1771977757/portfolio/projects/parflwecfrbuevy40r1r.png",
       status: "Live",
       type: "Full Stack",
       featured: true,
@@ -94,7 +106,8 @@ async function main() {
       tech: ["React", "TypeScript", "OpenWeather API"],
       liveUrl: "https://example-weather.com",
       githubUrl: "https://github.com/MandemGibson/example-weather",
-      image: "/api/placeholder/400/300",
+      image:
+        "https://res.cloudinary.com/dyzlw51f9/image/upload/v1771977757/portfolio/projects/parflwecfrbuevy40r1r.png",
       status: "Live",
       type: "Frontend",
       featured: false,
@@ -144,10 +157,9 @@ async function main() {
   // Create education
   await prisma.education.create({
     data: {
-      degree: "Bachelor of Computer Science",
-      institution: "University of Technology",
-      period: "2018 - 2020",
-      gpa: "3.8/4.0",
+      degree: "Bachelor of Science in Computer Science",
+      institution: "Kwame Nkrumah University of Science and Technology",
+      period: "2023 - Present",
       description:
         "Relevant coursework: Data Structures, Algorithms, Database Systems",
     },
