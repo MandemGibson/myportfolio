@@ -104,7 +104,9 @@ export default function HeroSection({ profile, darkMode }: HeroSectionProps) {
             {profile.availability && (
               <>
                 <span className="text-neutral-700">•</span>
-                <span className="text-emerald-400">{profile.availability}</span>
+                <span className="px-3 py-1 rounded-full border border-green-500/40 bg-green-500/10 text-green-400">
+                  {profile.availability}
+                </span>
               </>
             )}
           </motion.div>

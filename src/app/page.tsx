@@ -70,7 +70,7 @@ export default function Home() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <p className="text-green-400 text-lg">
+                    <p className="text-green-400 sm:text-lg">
                       Welcome to{" "}
                       <span className="text-cyan-400 font-bold">
                         Philip Gibson Cudjoe
@@ -84,7 +84,7 @@ export default function Home() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
                   >
-                    <p className="text-green-300">
+                    <p className="text-green-300 max-sm:text-sm">
                       Want to stay in terminal mode or switch to modern view?
                     </p>
                   </motion.div>
@@ -93,17 +93,21 @@ export default function Home() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="flex flex-col sm:flex-row gap-4 mt-8"
+                    className="flex flex-col sm:flex-row gap-4 mt-8 max-sm:text-sm"
                   >
                     <button
                       onClick={() => handleModeSelection("terminal")}
-                      className="border border-green-400 px-6 py-3 text-green-400 hover:bg-green-400 hover:text-black transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
+                      className="border border-green-400 px-6 py-3 text-green-400
+                      hover:bg-green-400 hover:text-black transition-all duration-300
+                      focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
                     >
                       [ Stay in Terminal Mode ]
                     </button>
                     <button
                       onClick={() => handleModeSelection("modern")}
-                      className="border border-cyan-400 px-6 py-3 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-50"
+                      className="border border-cyan-400 px-6 py-3 text-cyan-400
+                      hover:bg-cyan-400 hover:text-black transition-all duration-300
+                      focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-50"
                     >
                       [ Switch to Modern UI ]
                     </button>
