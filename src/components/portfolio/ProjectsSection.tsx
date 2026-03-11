@@ -58,20 +58,34 @@ export default function ProjectsSection({
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className={`border rounded-2xl overflow-hidden transition-all group ${
+              className={`border rounded-2xl overflow-hidden transition-all h-fit group ${
                 darkMode
                   ? "bg-white/5 border-white/10 hover:border-white/20"
                   : "bg-black/5 border-black/10 hover:border-black/20"
               }`}
             >
-              {project.image && (
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+              {(project.image || project.liveUrl) && (
+                <div
+                  className={`overflow-hidden rounded-t-2xl border-b ${darkMode ? "border-white/10" : "border-black/10"}`}
+                >
+                  <div
+                    className={`flex items-center gap-1.5 px-3 py-2 ${darkMode ? "bg-white/5" : "bg-black/5"}`}
+                  >
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                  </div>
+                  <div className="relative h-48 overflow-hidden">
+                    <Image
+                      src={
+                        project.image ||
+                        `https://image.thum.io/get/width/1200/${project.liveUrl}`
+                      }
+                      alt={project.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
                 </div>
               )}
               <div className="p-6">
@@ -148,7 +162,7 @@ export default function ProjectsSection({
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className={`border rounded-xl p-5 transition-all ${
+                  className={`border rounded-xl p-5 transition-all h-fit ${
                     darkMode
                       ? "bg-white/5 border-white/10 hover:border-white/20"
                       : "bg-black/5 border-black/10 hover:border-black/20"

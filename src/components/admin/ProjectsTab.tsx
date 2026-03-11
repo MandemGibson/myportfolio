@@ -402,7 +402,9 @@ export default function ProjectsTab({
             key={project.id}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white dark:bg-neutral-900 rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 hover:shadow-lg transition-all"
+            className="bg-white dark:bg-neutral-900 rounded-xl overflow-hidden border 
+            border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 
+            dark:hover:border-neutral-700 hover:shadow-lg transition-all h-fit"
           >
             {project.image && (
               <Image
