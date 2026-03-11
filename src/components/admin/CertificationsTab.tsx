@@ -23,7 +23,7 @@ export default function CertificationsTab({
     name: "",
     issuer: "",
     year: "",
-    credentialId: "",
+    validationUrl: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,7 +49,7 @@ export default function CertificationsTab({
         );
         setShowForm(false);
         setEditingCertification(null);
-        setFormData({ name: "", issuer: "", year: "", credentialId: "" });
+        setFormData({ name: "", issuer: "", year: "", validationUrl: "" });
         fetchCertifications();
       } else {
         const error = await response.json();
@@ -67,7 +67,7 @@ export default function CertificationsTab({
       name: cert.name,
       issuer: cert.issuer,
       year: cert.year,
-      credentialId: cert.credentialId || "",
+      validationUrl: cert.validationUrl || "",
     });
     setShowForm(true);
   };
@@ -116,7 +116,7 @@ export default function CertificationsTab({
           onClick={() => {
             setShowForm(true);
             setEditingCertification(null);
-            setFormData({ name: "", issuer: "", year: "", credentialId: "" });
+            setFormData({ name: "", issuer: "", year: "", validationUrl: "" });
           }}
           className="flex items-center gap-2 px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-all text-sm font-medium"
         >
@@ -202,13 +202,13 @@ export default function CertificationsTab({
 
               <div>
                 <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
-                  Credential ID (Optional)
+                  Validation URL (Optional)
                 </label>
                 <input
                   type="text"
-                  value={formData.credentialId}
+                  value={formData.validationUrl}
                   onChange={(e) =>
-                    setFormData({ ...formData, credentialId: e.target.value })
+                    setFormData({ ...formData, validationUrl: e.target.value })
                   }
                   className="w-full px-3 py-2 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent transition-all text-sm"
                   placeholder="ABC-123-DEF"
@@ -279,9 +279,9 @@ export default function CertificationsTab({
             </p>
             <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-500">
               <span>{cert.year}</span>
-              {cert.credentialId && (
+              {cert.validationUrl && (
                 <span className="font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 rounded">
-                  {cert.credentialId}
+                  {cert.validationUrl}
                 </span>
               )}
             </div>

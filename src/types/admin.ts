@@ -60,7 +60,7 @@ export interface Certification {
   name: string;
   issuer: string;
   year: string;
-  credentialId?: string;
+  validationUrl?: string;
 }
 
 export type Tab =
