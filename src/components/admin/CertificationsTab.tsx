@@ -211,7 +211,7 @@ export default function CertificationsTab({
                     setFormData({ ...formData, validationUrl: e.target.value })
                   }
                   className="w-full px-3 py-2 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:border-transparent transition-all text-sm"
-                  placeholder="ABC-123-DEF"
+                  placeholder="https://www.credly.com/badges/1234567890abcdef/linked_in_profile"
                 />
               </div>
             </div>
