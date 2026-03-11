@@ -26,7 +26,7 @@ interface Certification {
   name: string;
   issuer: string;
   year: string;
-  credentialId?: string;
+  validationUrl?: string;
 }
 
 interface ExperienceSectionProps {
@@ -227,20 +227,35 @@ export default function ExperienceSection({
                     <Award size={24} />
                   </div>
                   <h4 className="font-semibold mb-1">{cert.name}</h4>
-                  <p
-                    className={`text-sm mb-1 ${
-                      darkMode ? "text-neutral-400" : "text-neutral-600"
-                    }`}
-                  >
-                    {cert.issuer}
-                  </p>
-                  <p
-                    className={`text-xs ${
-                      darkMode ? "text-neutral-500" : "text-neutral-600"
-                    }`}
-                  >
-                    {cert.year}
-                  </p>
+
+                  <div className="flex items-center gap-1 justify-center mb-2">
+                    <p
+                      className={`text-sm ${
+                        darkMode ? "text-neutral-400" : "text-neutral-600"
+                      }`}
+                    >
+                      {cert.issuer}
+                    </p>
+                    <span></span>
+                    <p
+                      className={`text-sm ${
+                        darkMode ? "text-neutral-500" : "text-neutral-600"
+                      }`}
+                    >
+                      {cert.year}
+                    </p>
+                  </div>
+
+                  {cert.validationUrl && (
+                    <a
+                      href={cert.validationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 rounded hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                    >
+                      Verify ↗
+                    </a>
+                  )}
                 </motion.div>
               ))}
             </div>
