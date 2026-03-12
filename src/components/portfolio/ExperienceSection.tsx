@@ -54,6 +54,7 @@ export default function ExperienceSection({
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
+          viewport={{once: true}}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
@@ -70,6 +71,7 @@ export default function ExperienceSection({
               key={exp.id}
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
+              viewport={{once: true}}
               transition={{ delay: index * 0.1 }}
               className={`relative pl-8 border-l-2 ${
                 darkMode ? "border-white/10" : "border-black/10"
@@ -141,6 +143,7 @@ export default function ExperienceSection({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{once: true}}
             transition={{ duration: 0.6 }}
             className="mt-16"
           >
@@ -154,6 +157,7 @@ export default function ExperienceSection({
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
+                  viewport={{once: true}}
                   className={`border rounded-xl p-5 ${
                     darkMode
                       ? "bg-white/5 border-white/10"
@@ -207,6 +211,7 @@ export default function ExperienceSection({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{once: true}}
             transition={{ duration: 0.6 }}
             className="mt-16"
           >
@@ -219,6 +224,7 @@ export default function ExperienceSection({
                   key={cert.id}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{once: true}}
                   transition={{ delay: index * 0.05 }}
                   className={`border rounded-xl p-4 text-center ${
                     darkMode

@@ -24,6 +24,7 @@ export default function Navigation({
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
+      viewport={{once: true}}
       className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-colors ${
         darkMode
           ? "bg-[#0a0a0f]/80 border-white/5"
@@ -35,6 +36,7 @@ export default function Navigation({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            viewport={{once: true}}
             className="text-xl font-semibold"
           >
             {profileName || "Portfolio"}
@@ -119,6 +121,7 @@ export default function Navigation({
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
+            viewport={{once: true}}
             exit={{ opacity: 0, height: 0 }}
             className={`md:hidden border-t ${
               darkMode ? "border-white/5" : "border-black/5"

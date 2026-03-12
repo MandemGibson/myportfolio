@@ -27,6 +27,7 @@ export default function SkillsSection({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{once: true}}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
@@ -41,6 +42,7 @@ export default function SkillsSection({
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
+          viewport={{once: true}}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="flex flex-wrap justify-center gap-4"
         >
@@ -49,6 +51,7 @@ export default function SkillsSection({
               key={skill.id}
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{once: true}}
               transition={{ delay: index * 0.05 }}
               whileHover={{ scale: 1.05, y: -2 }}
               className={`px-5 py-3 border rounded-full text-sm font-medium transition-all cursor-default flex items-center gap-2 ${

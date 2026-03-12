@@ -62,6 +62,7 @@ export default function HeroSection({ profile, darkMode }: HeroSectionProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
+          viewport={{once: true}}
           className="text-5xl md:text-7xl font-bold mb-6"
         >
           {profile?.name || "Full Stack Developer"}
@@ -70,6 +71,7 @@ export default function HeroSection({ profile, darkMode }: HeroSectionProps) {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          viewport={{once: true}}
           transition={{ delay: 0.4 }}
           className={`text-xl md:text-2xl mb-4 ${
             darkMode ? "text-neutral-400" : "text-neutral-600"
@@ -82,6 +84,7 @@ export default function HeroSection({ profile, darkMode }: HeroSectionProps) {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            viewport={{once: true}}
             transition={{ delay: 0.5 }}
             className={`max-w-2xl mx-auto mb-8 ${
               darkMode ? "text-neutral-500" : "text-neutral-600"
@@ -96,6 +99,7 @@ export default function HeroSection({ profile, darkMode }: HeroSectionProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
+            viewport={{once: true}}
             className={`flex items-center justify-center gap-2 mb-8 ${
               darkMode ? "text-neutral-500" : "text-neutral-600"
             }`}
@@ -117,6 +121,7 @@ export default function HeroSection({ profile, darkMode }: HeroSectionProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
+          viewport={{once: true}}
           className="flex flex-wrap gap-4 justify-center"
         >
           {profile?.github && (

@@ -40,6 +40,7 @@ export default function ProjectsSection({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{once: true}}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
@@ -57,6 +58,7 @@ export default function ProjectsSection({
               key={project.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{once: true}}
               transition={{ delay: index * 0.1 }}
               className={`border rounded-2xl overflow-hidden transition-all h-fit group ${
                 darkMode
@@ -149,6 +151,7 @@ export default function ProjectsSection({
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
+            viewport={{once: true}}
             transition={{ delay: 0.3 }}
             className="mt-10"
           >
@@ -161,6 +164,7 @@ export default function ProjectsSection({
                   key={project.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{once: true}}
                   transition={{ delay: index * 0.05 }}
                   className={`border rounded-xl p-5 transition-all h-fit ${
                     darkMode
