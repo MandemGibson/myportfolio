@@ -195,8 +195,12 @@ ${data.profile.availability ? `Status: ${data.profile.availability}` : ""}`;
               <div className="text-cyan-400">• {cert.name}</div>
               <div className="ml-4 text-sm">
                 {cert.issuer} ({cert.year})
-                {cert.credentialId && ` • ID: ${cert.credentialId}`}
               </div>
+              {cert.validationUrl && (
+                <div className="ml-4 max-w-full break-all">
+                  Verify: <TerminalLink url={cert.validationUrl} />
+                </div>
+              )}
             </div>
           ))}
         </div>,
