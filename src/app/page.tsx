@@ -67,7 +67,8 @@ export default function Home() {
                 <div className="space-y-4">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     transition={{ delay: 0.2 }}
                   >
                     <p className="text-green-400 sm:text-lg">
@@ -81,7 +82,8 @@ export default function Home() {
 
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     transition={{ delay: 0.4 }}
                   >
                     <p className="text-green-300 max-sm:text-sm">
@@ -91,7 +93,8 @@ export default function Home() {
 
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     transition={{ delay: 0.6 }}
                     className="flex flex-col sm:flex-row gap-4 mt-8 max-sm:text-sm"
                   >
@@ -152,7 +155,8 @@ export default function Home() {
           <motion.div
             key="modern"
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             exit={{ opacity: 0, y: -50 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >

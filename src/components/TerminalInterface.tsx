@@ -488,7 +488,8 @@ Type 'help' to see available commands.`;
                 {command.output && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     transition={{ duration: 0.3 }}
                     className="whitespace-pre-wrap text-green-300 ml-0 text-xs sm:text-sm"
                   >

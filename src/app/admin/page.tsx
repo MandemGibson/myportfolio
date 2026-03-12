@@ -253,7 +253,8 @@ export default function AdminPage() {
       <div className="min-h-screen bg-white dark:bg-neutral-950 flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           className="bg-white dark:bg-neutral-900 p-8 rounded-2xl shadow-lg border border-neutral-200 dark:border-neutral-800 max-w-md w-full"
         >
           <div className="mb-8 text-center">
