@@ -25,7 +25,13 @@ export default function TerminalInterface({
   const [commandHistory, setCommandHistory] = useState<Command[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [inputHistory, setInputHistory] = useState<string[]>([]);
+
   const inputRef = useRef<HTMLInputElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [commandHistory]);
 
   const TerminalLink = ({ url, text }: { url: string; text?: string }) => (
     <a
@@ -488,6 +494,7 @@ Type 'help' to see available commands.`;
               </div>
             ))}
           </div>
+          <div ref={bottomRef} />
 
           {/* Current Input */}
           <div className="flex items-center">
