@@ -1,7 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Briefcase, Calendar, Check, GraduationCap, Award } from "lucide-react";
+import {
+  Briefcase,
+  Calendar,
+  Check,
+  GraduationCap,
+  Award,
+  ExternalLink,
+} from "lucide-react";
 
 interface Experience {
   id: number;
@@ -236,7 +243,7 @@ export default function ExperienceSection({
                     >
                       {cert.issuer}
                     </p>
-                    <span></span>
+                    <span>·</span>
                     <p
                       className={`text-sm ${
                         darkMode ? "text-neutral-500" : "text-neutral-600"
@@ -251,9 +258,11 @@ export default function ExperienceSection({
                       href={cert.validationUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 rounded hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                      className="flex items-center gap-1 text-sm hover:text-white/80 transition-colors
+                      justify-center"
                     >
-                      Verify ↗
+                      <ExternalLink size={14} />
+                      <span>Verify</span>
                     </a>
                   )}
                 </motion.div>

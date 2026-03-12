@@ -247,7 +247,9 @@ export default function CertificationsTab({
             key={cert.id}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white dark:bg-neutral-900 p-5 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 hover:shadow-lg transition-all"
+            className="bg-white dark:bg-neutral-900 p-5 rounded-xl border 
+            border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 
+            dark:hover:border-neutral-700 hover:shadow-lg transition-all h-fit"
           >
             <div className="flex items-start justify-between mb-3">
               <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
@@ -274,20 +276,28 @@ export default function CertificationsTab({
             <h3 className="font-semibold text-neutral-900 dark:text-white mb-1 line-clamp-2">
               {cert.name}
             </h3>
-            <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">
-              {cert.issuer}
-            </p>
-            <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-500">
-              <span>{cert.year}</span>
-              {cert.validationUrl && (
-                <span className="font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 rounded">
-                  {cert.validationUrl}
-                </span>
-              )}
+            <div className="flex items-center gap-1 mb-2">
+              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                {cert.issuer}
+              </p>
+              <span>·</span>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                {cert.year}
+              </p>
             </div>
+            {cert.validationUrl && (
+              <p
+                className="font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 rounded
+                text-xs text-neutral-500 dark:text-neutral-500 break-all"
+              >
+                {cert.validationUrl}
+              </p>
+            )}
           </motion.div>
         ))}
       </div>
     </motion.div>
   );
 }
+
+// text-sm text-neutral-600 dark:text-neutral-400 mb-2"
