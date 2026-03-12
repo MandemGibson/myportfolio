@@ -24,7 +24,7 @@ export default function Navigation({
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      viewport={{once: true}}
+      viewport={{ once: true }}
       className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-colors ${
         darkMode
           ? "bg-[#0a0a0f]/80 border-white/5"
@@ -36,7 +36,7 @@ export default function Navigation({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            viewport={{once: true}}
+            viewport={{ once: true }}
             className="text-xl font-semibold"
           >
             {profileName || "Portfolio"}
@@ -121,7 +121,7 @@ export default function Navigation({
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            viewport={{once: true}}
+            viewport={{ once: true }}
             exit={{ opacity: 0, height: 0 }}
             className={`md:hidden border-t ${
               darkMode ? "border-white/5" : "border-black/5"
@@ -168,6 +168,25 @@ export default function Navigation({
               >
                 Contact
               </a>
+              <div
+                className={`flex items-center gap-3 pt-2 border-t justify-between
+                  ${darkMode ? "border-white/5" : "border-black/5"}`}
+              >
+                <button
+                  onClick={onSwitchToTerminal}
+                  className={`flex items-center gap-2 py-2 text-sm transition-colors ${darkMode ? "text-white/80" : "text-black/60"}`}
+                >
+                  <Terminal size={16} />
+                  Terminal Mode
+                </button>
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className={`flex items-center gap-2 py-2 text-sm transition-colors ${darkMode ? "text-white/80" : "text-black/60"}`}
+                >
+                  {darkMode ? <Sun size={16} /> : <Moon size={16} />}
+                  {darkMode ? "Light Mode" : "Dark Mode"}
+                </button>
+              </div>
             </div>
           </motion.div>
         )}
