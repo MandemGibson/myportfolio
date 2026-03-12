@@ -27,14 +27,14 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { name, issuer, year, credentialId } = body;
+    const { name, issuer, year, validationUrl } = body;
 
     const certification = await prisma.certification.create({
       data: {
         name,
         issuer,
         year,
-        credentialId,
+        validationUrl,
       },
     });
 
@@ -57,7 +57,7 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { id, name, issuer, year, credentialId } = body;
+    const { id, name, issuer, year, validationUrl } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -72,7 +72,7 @@ export async function PUT(request: NextRequest) {
         name,
         issuer,
         year,
-        credentialId,
+        validationUrl,
       },
     });
 
